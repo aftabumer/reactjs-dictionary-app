@@ -19,8 +19,8 @@ import { withRouter } from 'react-router-dom';
     if(this.state.isList){
       this.setState({
         buttonText: "Create Dictionary",
-      headingText: "Create Dictionary",
-      isList: false
+        headingText: "Create Dictionary",
+        isList: false
       })
     this.goto("/");
     }
