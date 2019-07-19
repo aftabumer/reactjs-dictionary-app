@@ -8,8 +8,10 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Fab from "@material-ui/core/Fab";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { withRouter } from 'react-router-dom';
-
+import EditIcon from "@material-ui/icons/Edit";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { addData, deleteData, editData, saveData } from "../actions";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -42,54 +44,82 @@ const styles = theme => ({
     // margin: "20px",
     // marginLeft: "50px"
     // marginright: "50px"
-
-  },
+  }
 });
 
 class ViewDic extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      buttonText: "Domian",
-      headingText: "Range",
-      
-    };
-  }
+  deleteData = (id) => {
+    console.log('delete:', id)
+    this.props.deleteData(id);
+  };
 
   render() {
     const { classes } = this.props;
+    const { datas } = this.props;
     return (
       <Paper className={classes.root}>
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <StyledTableCell>{this.state.buttonText}</StyledTableCell>
-              <StyledTableCell align="right">
-                {this.state.headingText}
-              </StyledTableCell>
-              <StyledTableCell>
-                <Fab
-                  size="medium"
-                  color="default"
-                  aria-label="Delete"
-                  className={classes.margin}
-                >
-                  <DeleteIcon />
-                </Fab>
-              </StyledTableCell>
+              <StyledTableCell>Domian</StyledTableCell>
+              <StyledTableCell>Range</StyledTableCell>
+              <StyledTableCell>Edit</StyledTableCell>
+              <StyledTableCell>Delete</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            <StyledTableRow>
-              <StyledTableCell component="th" scope="row" />
-              <StyledTableCell align="right" />
-              <StyledTableCell align="right" />
-            </StyledTableRow>
+            {datas.map(data => {
+              return (
+                <StyledTableRow>
+                  <StyledTableCell component="th" scope="row">
+                    {data.domain}
+                  </StyledTableCell>
+                  <StyledTableCell>{data.range}</StyledTableCell>
+                  <StyledTableCell>
+                    <Fab
+                      size="medium"
+                      color="default"
+                      aria-label="Edit"
+                      className={classes.margin}
+                    >
+                      <EditIcon />
+                    </Fab>
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    <Fab
+                      size="medium"
+                      color="default"
+                      aria-label="Delete"
+                      className={classes.margin}
+                      onClick={()=>this.deleteData(data.id)}
+                    >
+                      <DeleteIcon />
+                    </Fab>
+                  </StyledTableCell>
+                </StyledTableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </Paper>
     );
   }
 }
-export default (withRouter(withStyles(styles)(ViewDic)));
+
+const mapDispatchToProps = dispatch => {
+  return {
+    // addData: (domain, range) => dispatch(addData(domain, range)),
+    deleteData: (id) => dispatch(deleteData(id))
+  };
+};
+
+const mapStateToProps = state => {
+  return {
+    datas: state
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(withStyles(styles)(ViewDic)));

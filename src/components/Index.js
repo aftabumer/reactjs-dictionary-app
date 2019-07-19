@@ -11,9 +11,7 @@ class Index extends Component {
         <BrowserRouter>
         <Header />
         <Route exact path = '/' component={ViewDic} />
-        <Route exact path = '/create-dictionary' component={CreateDic} />
-
-          
+        <Route exact path = '/create-dictionary' component={CreateDic} /> 
         </BrowserRouter>
       </div>
     );

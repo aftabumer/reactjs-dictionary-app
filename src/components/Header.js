@@ -18,13 +18,6 @@ const styles = themes => ({
 });
 
 class Index extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      text: "Create Dictionary"
-    };
-  }
 
   render() {
     const { classes } = this.props;
