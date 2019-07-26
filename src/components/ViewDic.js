@@ -11,7 +11,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { addData, deleteData, editData, saveData } from "../actions";
+import { deleteData, editData, saveData } from "../actions";
+import TextField from "@material-ui/core/TextField";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -48,10 +49,19 @@ const styles = theme => ({
 });
 
 class ViewDic extends Component {
-
-  deleteData = (id) => {
-    console.log('delete:', id)
+  deleteData = id => {
+    console.log("delete:", id);
     this.props.deleteData(id);
+  };
+
+  saveData = index => {
+    console.log("saveData: ", index);
+    this.props.saveData(index);
+  };
+
+  editData = (index, e_domain, e_range) => {
+    console.log("index,e_domain,e_range: ", index, e_domain, e_range);
+    this.props.saveData(index, e_domain, e_range);
   };
 
   render() {
@@ -73,15 +83,46 @@ class ViewDic extends Component {
               return (
                 <StyledTableRow>
                   <StyledTableCell component="th" scope="row">
-                    {data.domain}
+                    {data.editStatus ? (
+                      <TextField
+                        id="outlined-name"
+                        label="Write Domin here"
+                        className={classes.textField}
+                        margin="normal"
+                        variant="outlined"
+                        name="domain"
+                        value={data.e_domain}
+                        onChange={this.props.handleOnChange}
+                      />
+                    ) : (
+                      data.domain
+                    )}
                   </StyledTableCell>
-                  <StyledTableCell>{data.range}</StyledTableCell>
+                  <StyledTableCell>
+                    {data.editStatus ? (
+                    <TextField
+                      id="outlined-name"
+                      label="Write Range here"
+                      className={classes.textField}
+                      margin="normal"
+                      variant="outlined"
+                      name="range"
+                      value={data.e_range}
+                      onChange={this.handleOnChange}
+                    />
+                    ) : (
+                      data.e_range
+                    )
+                    }
+                  </StyledTableCell>
                   <StyledTableCell>
                     <Fab
                       size="medium"
                       color="default"
                       aria-label="Edit"
                       className={classes.margin}
+                      onClick={data.editStatus
+                      ? () => }
                     >
                       <EditIcon />
                     </Fab>
@@ -92,7 +133,7 @@ class ViewDic extends Component {
                       color="default"
                       aria-label="Delete"
                       className={classes.margin}
-                      onClick={()=>this.deleteData(data.id)}
+                      onClick={() => this.deleteData(data.id)}
                     >
                       <DeleteIcon />
                     </Fab>
@@ -110,7 +151,10 @@ class ViewDic extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     // addData: (domain, range) => dispatch(addData(domain, range)),
-    deleteData: (id) => dispatch(deleteData(id))
+    deleteData: id => dispatch(deleteData(id)),
+    editData: Index => dispatch(editData(Index)),
+    saveData: (index, e_domain, e_range) =>
+      dispatch(saveData(index, e_domain, e_range))
   };
 };
 

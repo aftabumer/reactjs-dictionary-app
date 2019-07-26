@@ -94,26 +94,26 @@ class CreateDic extends Component {
   //   });
   // };
 
-  handelOnEdit = index => {
-    let dics = this.state.dics.map((dic, i) =>
-      i === index ? { ...dic, editStatus: true } : dic
-    );
-    this.setState({ dics });
-  };
+  // handelOnEdit = index => {
+  //   let dics = this.state.dics.map((dic, i) =>
+  //     i === index ? { ...dic, editStatus: true } : dic
+  //   );
+  //   this.setState({ dics });
+  // };
 
-  handleOnSave = index => {
-    let dics = this.state.dics.map((dic, i) =>
-      i === index
-        ? {
-            dic,
-            editStatus: false,
-            domain: this.state.e_domain,
-            range: this.state.e_range
-          }
-        : dic
-    );
-    this.setState({ dics });
-  };
+  // handleOnSave = index => {
+  //   let dics = this.state.dics.map((dic, i) =>
+  //     i === index
+  //       ? {
+  //           dic,
+  //           editStatus: false,
+  //           domain: this.state.e_domain,
+  //           range: this.state.e_range
+  //         }
+  //       : dic
+  //   );
+  //   this.setState({ dics });
+  // };
 
   goto = path => {
     this.props.history.push(path);
